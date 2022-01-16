@@ -30,9 +30,29 @@ export interface IArticle {
   processingTimeMS: number;
 }
 
+// function sequance(n: number) {
+//     let result = 0;
+//  if(n === 1) {
+//     result = n;
+//  }else if(n >= 2) {
+//      result
+//  }
+// }
+
 const BASE_URL = "https://hn.algolia.com/api/v1/search";
 
 export function fetchArticlesByPage(pageNum: number) {
+  console.log("This is pageNum: ", pageNum);
+  //   if (pageNum === 1) {
+  //     return fetch(`${BASE_URL}?page=${pageNum}`).then((response) =>
+  //       response.json()
+  //     );
+  //   }else if(pageNum % 2 === 0){
+  //       continue;
+  //   }else {
+  //       const number =
+  //   }
+
   return fetch(`${BASE_URL}?page=${pageNum}`).then((response) =>
     response.json()
   );
