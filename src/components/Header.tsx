@@ -43,7 +43,7 @@ function Header() {
         <Link to={"/"}>News</Link>
       </Logo>
       <Nav>
-        <Link to={"/about"}>About</Link>
+        <Link to={"/my-article"}>my article</Link>
       </Nav>
     </AHeader>
   );

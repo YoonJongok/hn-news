@@ -1,7 +1,7 @@
 import React from "react";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { About } from "./routes/About";
+import { MyArticle } from "./routes/MyArticle";
 import { Home } from "./routes/Home";
 import "./App.css";
 import Header from "./components/Header";
@@ -20,7 +20,7 @@ function App() {
             </Layout>
           }
         />
-        <Route path="about" element={<About />} />
+        <Route path="my-article" element={<MyArticle />} />
       </Routes>
     </BrowserRouter>
   );
