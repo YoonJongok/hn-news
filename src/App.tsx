@@ -1,26 +1,17 @@
 import React from "react";
-
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { MyArticle } from "./routes/MyArticle";
-import { Home } from "./routes/Home";
+import MyArticle from "./routes/MyArticle";
+import Articles from "./routes/Articles";
+import ArticleDetail from "./routes/ArticleDetail";
 import "./App.css";
-import Header from "./components/Header";
-import { Layout } from "antd";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <Layout>
-              <Header />
-              <Home />
-            </Layout>
-          }
-        />
-        <Route path="my-article" element={<MyArticle />} />
+        <Route path="/" element={<Articles />} />
+        <Route path="/:id" element={<ArticleDetail />} />
+        <Route path="/my-article" element={<MyArticle />} />
       </Routes>
     </BrowserRouter>
   );

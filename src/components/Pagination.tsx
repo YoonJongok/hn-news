@@ -12,7 +12,7 @@ function Pagination({
 }: PaginationProps) {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalArticles / articlePerPage); i++) {
+  for (let i = 1; i < Math.ceil(totalArticles / articlePerPage); i++) {
     pageNumbers.push(i);
   }
 

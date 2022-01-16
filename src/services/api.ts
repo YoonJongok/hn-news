@@ -1,20 +1,20 @@
 export interface IArticlesData {
-  created_at: string | null;
-  title: string | null;
-  url: string | null;
-  author: string | null;
-  points: number | null;
-  story_text: string | null;
-  comment_text: string | null;
-  num_comments: number | null;
-  story_id: string | null;
-  story_title: string | null;
-  story_url: string | null;
-  parent_id: string | null;
-  created_at_i: number | null;
-  _tags: string[] | null;
-  objectID: string | null;
-  _highlightResult: {} | null;
+  created_at?: string;
+  title?: string;
+  url?: string;
+  author?: string;
+  points?: number;
+  story_text?: string;
+  comment_text?: string;
+  num_comments?: number;
+  story_id?: string;
+  story_title?: string;
+  story_url?: string;
+  parent_id?: string;
+  created_at_i?: number;
+  _tags?: string[];
+  objectID?: string;
+  _highlightResult?: {};
 }
 export interface IArticle {
   hits: IArticlesData[];
@@ -30,11 +30,18 @@ export interface IArticle {
   processingTimeMS: number;
 }
 
-const BASE_URL = "https://hn.algolia.com/api/v1/search";
+const BASE_URL = "https://hn.algolia.com/api/v1";
 
 export async function fetchArticlesByPage(pageNum: number) {
   console.log("This is pageNum: ", pageNum);
-  return await fetch(`${BASE_URL}?page=${pageNum}&&hitsPerPage=10`).then(
+  return await fetch(`${BASE_URL}/search?page=${pageNum}&&hitsPerPage=10`).then(
     (response) => response.json()
+  );
+}
+
+export async function fetchArticleDetail(id: string) {
+  console.log("This is id: ", id);
+  return await fetch(`${BASE_URL}/items/${id}`).then((response) =>
+    response.json()
   );
 }

@@ -1,30 +1,46 @@
+import { LikeFilled, LikeOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
 import { IArticlesData } from "../services/api";
-import { TOKEN } from "../services/atoms";
+import { LikedArticleState, TOKEN } from "../services/atoms";
 
 interface IArticleProps {
-  news: IArticlesData;
+  objectID?: string;
+  author?: string;
+  title?: string;
+  points?: number;
 }
-function Article({ news }: IArticleProps) {
-  const [isLiked, setIsLied] = useState(false);
-  const toggleLikedBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
+function Article({ objectID, author, title, points }: IArticleProps) {
+  const { pathname } = useLocation();
+  const [isLiked, setIsLiked] = useState(false);
+  const setLikedArticles = useSetRecoilState(LikedArticleState);
+  const handleToggleLikeBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (!isLiked) {
-      localStorage.setItem(TOKEN, JSON.stringify(news));
+      // setLikedArtic111qw aes) => {
+      //   localStorage.setItem(TOKEN, JSON.stringify([...oldLikedArticles,]));
+      // });;
     } else {
       // localStorage.removeItem()
     }
 
-    setIsLied(!isLiked);
+    setIsLiked(!isLiked);
   };
 
   return (
-    <article key={news.objectID} style={{ marginBottom: "20px" }}>
-      <div>
-        <p>{news.author}</p>
-        <h3>{news.title}</h3>
-        <p>{news.points}</p>
+    <article key={objectID} style={{ marginBottom: "20px" }}>
+      <div style={{ display: "inline-block" }}>
+        <h2>{title}</h2>
+        {pathname === "/" ? (
+          <span style={{ display: "none" }}></span>
+        ) : (
+          <button onClick={handleToggleLikeBtn}>
+            {isLiked ? <LikeFilled /> : <LikeOutlined />}
+          </button>
+        )}
       </div>
-      <button onClick={toggleLikedBtn}>{isLiked ? "Unlike" : "Like"}</button>
+      <p>author: {author}</p>
+      <p>points: {points}</p>
     </article>
   );
 }
