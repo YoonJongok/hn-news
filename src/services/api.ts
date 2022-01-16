@@ -30,6 +30,13 @@ export interface IArticle {
   processingTimeMS: number;
 }
 
+export interface IArticleProps {
+  objectID?: string;
+  author?: string;
+  title?: string;
+  points?: number;
+}
+
 const BASE_URL = "https://hn.algolia.com/api/v1";
 
 export async function fetchArticlesByPage(pageNum: number) {

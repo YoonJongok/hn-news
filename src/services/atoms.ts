@@ -1,9 +1,9 @@
 import { atom } from "recoil";
-import { IArticlesData } from "./api";
+import { IArticleProps, IArticlesData } from "./api";
 
 export const TOKEN = "LikedArticle";
 
-export const LikedArticleState = atom<IArticlesData[]>({
+export const LikedArticleState = atom<IArticleProps[]>({
   key: "likedArticleState",
   default: [],
 });

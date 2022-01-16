@@ -1,7 +1,6 @@
 import { Layout } from "antd";
 import React from "react";
 import { Container } from "../components/Container";
-
 interface IMyArticle {}
 const { Content } = Layout;
 
