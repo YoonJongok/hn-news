@@ -1,18 +1,20 @@
 import { LikeFilled, LikeOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { IArticleProps } from "../services/api";
 import { LikedArticleState, TOKEN } from "../services/atoms";
 
 function Article({ objectID, author, title, points }: IArticleProps) {
   const { pathname } = useLocation();
   const [isLiked, setIsLiked] = useState(false);
-  const setLikedArticles = useSetRecoilState(LikedArticleState);
+  const [likeArticles, setLikedArticles] = useRecoilState(LikedArticleState);
 
   useEffect(() => {
     const json = localStorage.getItem(TOKEN);
     if (json) {
+      const result = JSON.parse(json);
+      setLikedArticles(() => [...result]);
       const isExist = JSON.parse(json).find(
         (val: IArticleProps) => val.objectID === objectID
       );
@@ -22,41 +24,50 @@ function Article({ objectID, author, title, points }: IArticleProps) {
         setIsLiked(true);
       }
     }
-  }, [objectID]);
+  }, [objectID, setLikedArticles]);
 
-  const handleToggleLikeBtn = (event: React.MouseEvent<HTMLButtonElement>) => {
-    if (!isLiked) {
-      setLikedArticles((oldLikedArticles) => {
-        console.log("like OldLiked: ", oldLikedArticles);
-        const newLikeArticles: IArticleProps = {
-          objectID,
-          author,
-          title,
-          points,
-        };
-        localStorage.setItem(
-          TOKEN,
-          JSON.stringify([...oldLikedArticles, newLikeArticles])
-        );
-        console.log("After like btn: ", [...oldLikedArticles, newLikeArticles]);
-        return [...oldLikedArticles, newLikeArticles];
-      });
-    } else {
-      setLikedArticles((oldLikedArticles) => {
-        console.log("oldLikedArticles: ", oldLikedArticles);
+  const handleToggleLikeBtn = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      if (!isLiked) {
+        setLikedArticles((oldLikedArticles) => {
+          console.log("like OldLiked: ", oldLikedArticles);
+          const newLikeArticles: IArticleProps = {
+            objectID,
+            author,
+            title,
+            points,
+          };
+          localStorage.setItem(
+            TOKEN,
+            JSON.stringify([...oldLikedArticles, newLikeArticles])
+          );
+          console.log("After like btn: ", [
+            ...oldLikedArticles,
+            newLikeArticles,
+          ]);
+          return [...oldLikedArticles, newLikeArticles];
+        });
+      } else {
+        setLikedArticles((oldLikedArticles) => {
+          console.log("oldLikedArticles: ", oldLikedArticles);
 
-        const filteredLikedArticles = oldLikedArticles.filter(
-          (article) => article.objectID !== objectID
-        );
-        console.log("filteredLikedArticles: ", filteredLikedArticles);
-        localStorage.setItem(TOKEN, JSON.stringify([...filteredLikedArticles]));
-        console.log("After unlike btn: ", [...filteredLikedArticles]);
+          const filteredLikedArticles = oldLikedArticles.filter(
+            (article) => article.objectID !== objectID
+          );
+          console.log("filteredLikedArticles: ", filteredLikedArticles);
+          localStorage.setItem(
+            TOKEN,
+            JSON.stringify([...filteredLikedArticles])
+          );
+          console.log("After unlike btn: ", [...filteredLikedArticles]);
 
-        return [...filteredLikedArticles];
-      });
-    }
-    setIsLiked(!isLiked);
-  };
+          return [...filteredLikedArticles];
+        });
+      }
+      setIsLiked(!isLiked);
+    },
+    [objectID, author, title, points, setLikedArticles, isLiked]
+  );
 
   return (
     <article key={objectID} style={{ marginBottom: "20px" }}>
