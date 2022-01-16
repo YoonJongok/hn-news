@@ -1,32 +1,32 @@
 import React, { useEffect } from "react";
 import { Layout, Menu, Breadcrumb } from "antd";
-import Header from "../components/Header";
+
+import { useQuery } from "react-query";
+import { fetchArticlesByPage, IArticle } from "../services/api";
 
 const { Content, Footer } = Layout;
-interface IHomeProps {}
 
-export const Home = ({}: IHomeProps) => {
-  useEffect(() => {
-    (async () => {
-      await fetch("http://hn.algolia.com/api/v1/items/1").then(async (res) =>
-        console.log(await res.json())
-      );
-    })();
-  }, []);
+export const Home = () => {
+  const { data, isLoading } = useQuery<IArticle>(["articles", 1], () =>
+    fetchArticlesByPage(1)
+  );
+  if (!isLoading && data) {
+    console.log(data.nbPages);
+    data.hits.map((val) => console.log("This is: ", val));
+  }
+
   return (
-    <Layout className="layout">
-      <Header />
-      <Content style={{ padding: "0 50px" }}>
-        <Breadcrumb style={{ margin: "16px 0" }}>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
-        </Breadcrumb>
-        <div className="site-layout-content">Content</div>
+    <>
+      <Content style={{ height: "74vh", padding: "3.2rem" }}>
+        {/* {!isLoading &&
+          articles.hits &&
+          articles.hits.map((article) => (
+            <div key={article.title}>{article.title}</div>
+          ))} */}
       </Content>
-      <Footer style={{ textAlign: "center" }}>
-        Ant Design ©2018 Created by Ant UED
+      <Footer style={{ height: "20vh", backgroundColor: "black" }}>
+        This is footer
       </Footer>
-    </Layout>
+    </>
   );
 };

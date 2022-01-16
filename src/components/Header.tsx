@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { SearchOutlined } from "@ant-design/icons";
 const AHeader = styled.header`
   display: flex;
   justify-content: space-between;
@@ -38,35 +36,12 @@ const Nav = styled.div`
     cursor: pointer;
   }
 `;
-interface FormData {
-  searchKeyword: string;
-}
 function Header() {
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit = () => {};
-
   return (
     <AHeader>
       <Logo>
-        <Link to={"/about"}>News</Link>
+        <Link to={"/"}>News</Link>
       </Logo>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          {...register("searchKeyword")}
-          type="text"
-          placeholder="Search news"
-        />
-        <button>
-          <SearchOutlined />
-        </button>
-      </form>
-
       <Nav>
         <Link to={"/about"}>About</Link>
       </Nav>
