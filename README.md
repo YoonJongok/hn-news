@@ -2,6 +2,8 @@
 
 ## Build HN News platform using React(typescript)
 
+### API call
+
 Api url is calling 10 datas by page
 
 - https://hn.algolia.com/api/v1/search?page=pageNum&&hitsPerPage=10
