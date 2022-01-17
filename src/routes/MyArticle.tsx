@@ -4,6 +4,7 @@ import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import Article from "../components/Article";
 import { Container } from "../components/Container";
+import Loader from "../components/Loader";
 import { IArticleProps } from "../services/api";
 import { LikedArticleState, TOKEN } from "../services/atoms";
 interface IMyArticle {}
@@ -23,8 +24,7 @@ function MyArticle({}: IMyArticle) {
   }, [setLikedArticles]);
   return (
     <Container>
-      {loading && <Spin size="large" />}
-
+      {loading && <Loader />}
       {!loading && likedArticles.length > 0 ? (
         likedArticles.map((article) => (
           <Article

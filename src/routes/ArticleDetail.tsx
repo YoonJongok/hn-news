@@ -1,13 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { Layout, Skeleton, Spin } from "antd";
-import { useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { PageHeader, Spin } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchArticleDetail } from "../services/api";
 
 import Article from "../components/Article";
 import { Container } from "../components/Container";
+import Loader from "../components/Loader";
+import Comment from "../components/Comment";
+import Title from "antd/lib/typography/Title";
+import styled from "styled-components";
 
-const { Content } = Layout;
+const Section = styled.section`
+  width: 100%;
+  height: 100%;
+  max-width: 680px;
+  margin: 0 auto 1.563em;
+  padding: 0.2rem;
+`;
 
 interface IComment {
   id: number;
@@ -42,6 +52,7 @@ interface IArticleDetail {
 }
 
 function ArticleDetail() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const articleId = id as string;
   const { data, isLoading } = useQuery<IArticleDetail>(
@@ -49,40 +60,62 @@ function ArticleDetail() {
     () => fetchArticleDetail(articleId)
   );
   useEffect(() => {}, [isLoading]);
-
   return (
     <Container>
-      {isLoading && <Spin size="large" />}
+      {isLoading && <Loader />}
       {!isLoading && data && (
-        <div>
-          <section style={{ marginBottom: "120px" }}>
+        <>
+          <PageHeader
+            style={{ padding: "0", marginBottom: "1rem" }}
+            onBack={() => navigate(-1)}
+            title={"Back"}
+          />
+
+          <Section>
+            <Title style={{ paddingLeft: "0.1em", color: "#34495e" }} level={3}>
+              Article
+            </Title>
             <Article
               objectID={data.id + ""}
               author={data.author}
               points={data.points}
               title={data.title}
             />
-          </section>
-          <section>
-            <h2>Comment</h2>
+          </Section>
+          <Section>
+            <Title style={{ paddingLeft: "0.1em", color: "#34495e" }} level={3}>
+              Comment
+            </Title>
             {data.children && data.children.length > 0 && (
               <div>
-                {data.children.slice(0, 20).map((comment) => (
-                  <div key={comment.id}>
-                    <p>Commenter: {comment.author}</p>
-                    <p style={{ marginBottom: "50px" }}>
-                      {comment?.text
-                        ? comment.text
-                            .replace(/(<([^>]+)>)/gi, "")
-                            .replace(/[^\w\s]/gi, "")
-                        : ""}
-                    </p>
-                  </div>
-                ))}
+                {data.children.slice(0, 20).map(
+                  (comment) => {
+                    if (comment.author) {
+                      return (
+                        <Comment
+                          key={comment.id}
+                          author={comment.author}
+                          text={comment.text}
+                        />
+                      );
+                    }
+                  }
+
+                  // <div key={comment.id}>
+                  //   <p>Commenter: {comment.author}</p>
+                  //   <p style={{ marginBottom: "50px" }}>
+                  //     {comment?.text
+                  //       ? comment.text
+                  //           .replace(/(<([^>]+)>)/gi, "")
+                  //           .replace(/[^\w\s]/gi, "")
+                  //       : ""}
+                  //   </p>
+                  // </div>
+                )}
               </div>
             )}
-          </section>
-        </div>
+          </Section>
+        </>
       )}
     </Container>
   );

@@ -1,6 +1,6 @@
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { IArticleProps } from "../services/api";
@@ -8,9 +8,9 @@ import { LikedArticleState, TOKEN } from "../services/atoms";
 import { Typography, Button } from "antd";
 import Title from "antd/lib/typography/Title";
 
-const { Text, Link } = Typography;
+const { Text } = Typography;
 
-const SArticle = styled.article`
+export const SArticle = styled.article`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -21,6 +21,7 @@ const SArticle = styled.article`
   padding: 1rem;
   border-radius: 10px;
   background-color: ${(props) => props.theme.containerColor};
+  overflow: auto;
 `;
 
 function Article({ objectID, author, title, points }: IArticleProps) {
@@ -96,14 +97,12 @@ function Article({ objectID, author, title, points }: IArticleProps) {
       {pathname === "/" ? (
         <span style={{ display: "none" }}></span>
       ) : (
-        // <button onClick={handleToggleLikeBtn}>
-        //   {isLiked ? <HeartFilled /> : <HeartOutlined />}
-        // </button>
         <Button
           style={{
             position: "absolute",
             top: "0.2em",
             right: "0.2em",
+            zIndex: "10",
             color: "red",
           }}
           type="text"

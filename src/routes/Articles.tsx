@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Spin } from "antd";
+import { Pagination, Spin } from "antd";
 import { useQuery } from "react-query";
 import { fetchArticlesByPage, IArticle } from "../services/api";
-import Pagination from "../components/Pagination";
 import Article from "../components/Article";
 import { Link } from "react-router-dom";
 import { Container } from "../components/Container";
 import { Skeleton } from "antd";
+import Loader from "../components/Loader";
+import styled from "styled-components";
+
+const PageContainer = styled.div`
+  margin: 0 auto;
+`;
 
 function Articles() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -17,23 +22,20 @@ function Articles() {
   );
 
   useEffect(() => {
-    if (isLoading) {
-      <Skeleton active />;
-    }
     if (!isLoading && data) {
       refetch();
     }
   }, [isLoading, data, refetch]);
 
   //Count totalArticles for total page numbers
-  const totalArticles: number = (data?.nbPages as number) * articlePerPage;
+  const totalArticles: number =
+    ((data?.nbPages as number) - 1) * articlePerPage;
 
   const paginate = (pageNum: number) => setCurrentPage(pageNum);
 
-  // ID(=> objectID), author, number of points, title.
   return (
     <Container>
-      {isLoading && <Spin size="large" />}
+      {isLoading && <Loader />}
       {!isLoading &&
         data &&
         data.hits?.length > 0 &&
@@ -53,11 +55,16 @@ function Articles() {
         })}
 
       {!isLoading && data && (
-        <Pagination
-          articlePerPage={articlePerPage}
-          totalArticles={totalArticles}
-          paginate={paginate}
-        />
+        <PageContainer>
+          <Pagination
+            defaultCurrent={1}
+            pageSize={articlePerPage}
+            current={currentPage}
+            total={totalArticles}
+            showSizeChanger={false}
+            onChange={paginate}
+          />
+        </PageContainer>
       )}
     </Container>
   );
