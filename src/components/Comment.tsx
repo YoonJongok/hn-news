@@ -1,5 +1,5 @@
-import Text from "antd/lib/typography/Text";
 import React from "react";
+import Text from "antd/lib/typography/Text";
 import styled from "styled-components";
 import { SArticle } from "./Article";
 

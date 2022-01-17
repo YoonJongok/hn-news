@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
-import { PageHeader, Spin } from "antd";
+import { PageHeader } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchArticleDetail } from "../services/api";
-
 import Article from "../components/Article";
 import { Container } from "../components/Container";
 import Loader from "../components/Loader";
@@ -88,30 +87,17 @@ function ArticleDetail() {
             </Title>
             {data.children && data.children.length > 0 && (
               <div>
-                {data.children.slice(0, 20).map(
-                  (comment) => {
-                    if (comment.author) {
-                      return (
-                        <Comment
-                          key={comment.id}
-                          author={comment.author}
-                          text={comment.text}
-                        />
-                      );
-                    }
+                {data.children.slice(0, 20).map((comment) => {
+                  if (comment.author) {
+                    return (
+                      <Comment
+                        key={comment.id}
+                        author={comment.author}
+                        text={comment.text}
+                      />
+                    );
                   }
-
-                  // <div key={comment.id}>
-                  //   <p>Commenter: {comment.author}</p>
-                  //   <p style={{ marginBottom: "50px" }}>
-                  //     {comment?.text
-                  //       ? comment.text
-                  //           .replace(/(<([^>]+)>)/gi, "")
-                  //           .replace(/[^\w\s]/gi, "")
-                  //       : ""}
-                  //   </p>
-                  // </div>
-                )}
+                })}
               </div>
             )}
           </Section>

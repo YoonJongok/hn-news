@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Pagination, Spin } from "antd";
+import { Pagination } from "antd";
 import { useQuery } from "react-query";
 import { fetchArticlesByPage, IArticle } from "../services/api";
 import Article from "../components/Article";
 import { Link } from "react-router-dom";
 import { Container } from "../components/Container";
-import { Skeleton } from "antd";
 import Loader from "../components/Loader";
 import styled from "styled-components";
 

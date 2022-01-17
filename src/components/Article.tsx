@@ -1,6 +1,6 @@
 import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 import React, { useCallback, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { IArticleProps } from "../services/api";
@@ -115,7 +115,6 @@ function Article({ objectID, author, title, points }: IArticleProps) {
       <Title style={{ marginTop: "0.2rem" }} level={4}>
         {title}
       </Title>
-
       <Text style={{ color: "#7f8c8d" }}>Points: {points}</Text>
     </SArticle>
   );

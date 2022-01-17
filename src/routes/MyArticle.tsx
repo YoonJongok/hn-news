@@ -1,6 +1,4 @@
-import { Layout, Spin } from "antd";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
 import Article from "../components/Article";
 import { Container } from "../components/Container";
@@ -8,7 +6,6 @@ import Loader from "../components/Loader";
 import { IArticleProps } from "../services/api";
 import { LikedArticleState, TOKEN } from "../services/atoms";
 interface IMyArticle {}
-const { Content } = Layout;
 
 function MyArticle({}: IMyArticle) {
   const [loading, setLoading] = useState(true);
@@ -36,7 +33,7 @@ function MyArticle({}: IMyArticle) {
           />
         ))
       ) : (
-        <div>nothing to show</div>
+        <div>No Liked Articles.</div>
       )}
     </Container>
   );
