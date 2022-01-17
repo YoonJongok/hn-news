@@ -1,20 +1,27 @@
-import { LikeFilled, LikeOutlined } from "@ant-design/icons";
+import {
+  HeartFilled,
+  HeartOutlined,
+  LikeFilled,
+  LikeOutlined,
+} from "@ant-design/icons";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { IArticleProps } from "../services/api";
 import { LikedArticleState, TOKEN } from "../services/atoms";
 
 function Article({ objectID, author, title, points }: IArticleProps) {
   const { pathname } = useLocation();
   const [isLiked, setIsLiked] = useState(false);
-  const [likeArticles, setLikedArticles] = useRecoilState(LikedArticleState);
+  const setLikedArticles = useSetRecoilState(LikedArticleState);
 
   useEffect(() => {
     const json = localStorage.getItem(TOKEN);
     if (json) {
+      //Retrieve the data from localStorage and set it to the recoil state for initial data.
       const result = JSON.parse(json);
       setLikedArticles(() => [...result]);
+      //Check whether this article is liked or not and display the liked value according to the result.
       const isExist = JSON.parse(json).find(
         (val: IArticleProps) => val.objectID === objectID
       );
@@ -77,7 +84,7 @@ function Article({ objectID, author, title, points }: IArticleProps) {
           <span style={{ display: "none" }}></span>
         ) : (
           <button onClick={handleToggleLikeBtn}>
-            {isLiked ? <LikeFilled /> : <LikeOutlined />}
+            {isLiked ? <HeartFilled /> : <HeartOutlined />}
           </button>
         )}
       </div>
