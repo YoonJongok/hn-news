@@ -39,6 +39,7 @@ function Articles() {
         data &&
         data.hits?.length > 0 &&
         data.hits.map((news) => {
+          // Api is calling 10 datas by page. However, there is a data which doesn't contain the title etc. So one page is not possibly sufficient of displaying 10 datas per page. if all of the fetched data from the api contains all info, it will show 10 datas per page(e.g. page 99.)
           if (news.title !== null) {
             return (
               <Link key={news.objectID} to={`/${news.objectID}`}>
