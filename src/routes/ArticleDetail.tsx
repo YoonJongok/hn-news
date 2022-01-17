@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Layout } from "antd";
+import React, { useEffect, useState } from "react";
+import { Layout, Skeleton, Spin } from "antd";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { fetchArticleDetail } from "../services/api";
@@ -48,42 +48,42 @@ function ArticleDetail() {
     ["articleDetail", articleId],
     () => fetchArticleDetail(articleId)
   );
+  useEffect(() => {}, [isLoading]);
 
   return (
     <Container>
-      <Content>
-        {!isLoading && data && (
-          <div>
-            <section style={{ marginBottom: "120px" }}>
-              <Article
-                objectID={data.id + ""}
-                author={data.author}
-                points={data.points}
-                title={data.title}
-              />
-            </section>
-            <section>
-              <h2>Comment</h2>
-              {data.children && data.children.length > 0 && (
-                <div>
-                  {data.children.slice(0, 20).map((comment) => (
-                    <div key={comment.id}>
-                      <p>Commenter: {comment.author}</p>
-                      <p style={{ marginBottom: "50px" }}>
-                        {comment?.text
-                          ? comment.text
-                              .replace(/(<([^>]+)>)/gi, "")
-                              .replace(/[^\w\s]/gi, "")
-                          : ""}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </section>
-          </div>
-        )}
-      </Content>
+      {isLoading && <Spin size="large" />}
+      {!isLoading && data && (
+        <div>
+          <section style={{ marginBottom: "120px" }}>
+            <Article
+              objectID={data.id + ""}
+              author={data.author}
+              points={data.points}
+              title={data.title}
+            />
+          </section>
+          <section>
+            <h2>Comment</h2>
+            {data.children && data.children.length > 0 && (
+              <div>
+                {data.children.slice(0, 20).map((comment) => (
+                  <div key={comment.id}>
+                    <p>Commenter: {comment.author}</p>
+                    <p style={{ marginBottom: "50px" }}>
+                      {comment?.text
+                        ? comment.text
+                            .replace(/(<([^>]+)>)/gi, "")
+                            .replace(/[^\w\s]/gi, "")
+                        : ""}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        </div>
+      )}
     </Container>
   );
 }

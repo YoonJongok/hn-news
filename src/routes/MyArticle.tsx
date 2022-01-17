@@ -1,4 +1,4 @@
-import { Layout } from "antd";
+import { Layout, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useRecoilState } from "recoil";
@@ -20,24 +20,24 @@ function MyArticle({}: IMyArticle) {
       setLikedArticles(() => [...result]);
       setLoading(false);
     }
-  }, []);
+  }, [setLikedArticles]);
   return (
     <Container>
-      <Content>
-        {!loading && likedArticles.length > 0 ? (
-          likedArticles.map((article) => (
-            <Article
-              key={article.objectID}
-              objectID={article.objectID}
-              title={article.title}
-              author={article.author}
-              points={article.points}
-            />
-          ))
-        ) : (
-          <div>nothing to show</div>
-        )}
-      </Content>
+      {loading && <Spin size="large" />}
+
+      {!loading && likedArticles.length > 0 ? (
+        likedArticles.map((article) => (
+          <Article
+            key={article.objectID}
+            objectID={article.objectID}
+            title={article.title}
+            author={article.author}
+            points={article.points}
+          />
+        ))
+      ) : (
+        <div>nothing to show</div>
+      )}
     </Container>
   );
 }

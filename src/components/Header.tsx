@@ -8,7 +8,7 @@ const AHeader = styled.header`
   width: 100%;
   height: 55px;
   padding: 0.3rem 1.2rem;
-  background-color: #ffffff;
+  background-color: ${(props) => props.theme.containerColor};
 `;
 const Logo = styled.div`
   width: fit-content;
@@ -34,6 +34,10 @@ const Nav = styled.div`
     font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
+    &:hover {
+      transition: ease-in 0.1s;
+      transform: scale(1.02);
+    }
   }
 `;
 function Header() {
